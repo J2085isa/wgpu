@@ -1,3 +1,8 @@
+## Vídeo relacionado
+[![Título del vídeo](https://img.youtube.com/vi/ID_DEL_VIDEO/0.jpg)](https://www.youtube.com/watch?v=ID_DEL_VIDEO)
+
+O inserta el reproductor directamente:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ID_DEL_VIDEO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <img align="right" width="25%" src="logo.png">
 
 # wgpu
