@@ -1,4 +1,22 @@
-// 1. Estructura para datos del payload entre tarea y malla
+Ajustes adicionales importantes
+ 
+- Se especifica el tipo del payload en los decoradores  @payload(...)  para que el compilador lo reconozca.
+
+- Los datos per-primitive ( colorMask ) tienen un  @location  para que el fragment shader los pueda leer.
+
+- Se usan sufijos  u  en todos los valores enteros sin signo para evitar ambigüedades de tipo.
+
+- La estructura de salida de vértices incluye  @location  para el color, lo cual es necesario para pasar información al fragment shader.
+ 
+Para que funcione en tu proyecto GitHub ("truk")
+ 
+- Asegúrate de que los bindings de  positions  y  colors  coincidan con cómo creas los bind groups en tu código Rust/wgpu.
+
+- Si tus posiciones son  vec3<f32> , conviértelas a  vec4<f32>  en el shader (ej:  vec4(positions[0], 1.0) ).
+
+- Verifica que en tu pipeline de wgpu hayas habilitado la característica de mesh shaders y configurado correctamente los layouts de pipeline.
+ 
+¿Necesitas que te ayude a adaptar el código Rust correspondiente para usar este shader en tu proyecto?// 1. Estructura para datos del payload entre tarea y malla
 struct TaskPayload {
     colorMask: vec4<f32>,
     visible: bool,
