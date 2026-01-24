@@ -1,3 +1,22 @@
+=========================================================================
+==  NOTICE file corresponding to section 4(d) of the Apache License,   ==
+==  Version 2.0, in this case for the CAA (Adaptive Self-Managing Code)==
+=========================================================================
+
+Adaptive Self-Managing Code (CAA) - Proyecto Truk
+Copyright 2024-2026 J2085isa and contributors.
+
+This product includes software developed by:
+- The Apache Software Foundation (http://www.apache.org/dubbo)
+- WHATWG (HTML/DOM Living Standards)
+- wgpu-rs and the Rust Graphics community (WGSL Shaders)
+
+This work is a derivative of "Maven-Exercises" originally developed by lm2a.
+The Adaptive Self-Managing layers for Virtual, Physical, and Quantum 
+environments are original contributions by J2085isa.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
 import asyncio
 from claude_agent_sdk import query, ClaudeAgentOptions, ClaudeAgentError  # Asumiendo que el SDK define esta excepción
 
