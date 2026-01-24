@@ -1,3 +1,34 @@
+Perfecto. Para cumplir con la Sección 4(d) de la Licencia Apache 2.0 que acabas de compartir, el archivo NOTICE debe ser un documento de texto sencillo que informe a cualquier usuario sobre quiénes son los autores originales y qué estás haciendo con el código.
+Aquí tienes una propuesta lista para usar, adaptada al proyecto de J2085isa:
+Archivo NOTICE sugerido
+=========================================================================
+==  NOTICE file corresponding to section 4(d) of the Apache License,   ==
+==  Version 2.0, in this case for the CAA (Adaptive Self-Managing Code)==
+=========================================================================
+
+Adaptive Self-Managing Code (CAA) - Proyecto Truk
+Copyright 2024-2026 J2085isa and contributors.
+
+This product includes software developed by:
+- The Apache Software Foundation (http://www.apache.org/dubbo)
+- WHATWG (HTML/DOM Living Standards)
+- wgpu-rs and the Rust Graphics community (WGSL Shaders)
+
+This work is a derivative of "Maven-Exercises" originally developed by lm2a.
+The Adaptive Self-Managing layers for Virtual, Physical, and Quantum 
+environments are original contributions by J2085isa.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+
+¿Dónde debes poner este archivo?
+Para que la revisión de GitHub Actions que vimos antes no marque error, debes colocar este archivo en la raíz (root) de tu repositorio, justo al lado del archivo LICENSE y del README.md.
+¿Por qué es importante para la "Revisión"?
+Recuerda que en el script de automatización que me pasaste, había un paso llamado Check License. Ese paso busca precisamente:
+ * Que el archivo LICENSE esté presente.
+ * Que el archivo NOTICE dé crédito a los autores originales (como lm2a o la fundación Apache).
+ * Que cada archivo de código (como el auth.py que Claude está revisando) tenga un pequeño encabezado mencionando la licencia.
+¿Te gustaría que te genere el pequeño encabezado de licencia que debes pegar al principio de tus archivos de Python o WGSL para que la revisión pase sin errores?
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
