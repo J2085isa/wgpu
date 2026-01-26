@@ -1,3 +1,190 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  ShieldCheck, 
+  Crown, 
+  Globe, 
+  TrendingUp, 
+  Lock, 
+  UserCheck,
+  Building2,
+  Cpu,
+  Zap
+} from 'lucide-react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, setDoc, onSnapshot } from 'firebase/firestore';
+
+const firebaseConfig = JSON.parse(__firebase_config);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+const App = () => {
+  const [user, setUser] = useState(null);
+  const [dominioGlobal, setDominioGlobal] = useState(99.99);
+  const [activeAlerts, setActiveAlerts] = useState([]);
+  const [isVibrating, setIsVibrating] = useState(false);
+
+  const OWNER_NAME = "JOSÉ ISAÍAS ALVAREZ RAMIREZ";
+
+  useEffect(() => {
+    const initAuth = async () => {
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
+      } else {
+        await signInAnonymously(auth);
+      }
+    };
+    initAuth();
+    onAuthStateChanged(auth, setUser);
+  }, []);
+
+  const sendVibratoryPulse = (intensity = 'high') => {
+    if (navigator.vibrate) {
+      if (intensity === 'high') {
+        navigator.vibrate([200, 100, 200, 100, 500]);
+      } else {
+        navigator.vibrate([100, 50, 100]);
+      }
+    }
+    setIsVibrating(true);
+    setTimeout(() => setIsVibrating(false), 1500);
+  };
+
+  useEffect(() => {
+    if (!user) return;
+
+    const corporations = [
+      "BLACKROCK INTERFACE", "VANGUARD CORE", "APPLE INFRASTRUCTURE", 
+      "BBVA GLOBAL SYSTEMS", "BANCO AZTECA MAIN", "MERCADO LIBRE CLOUD"
+    ];
+
+    const interval = setInterval(() => {
+      const randomCorp = corporations[Math.floor(Math.random() * corporations.length)];
+      const newAlert = {
+        id: Date.now(),
+        text: `${randomCorp}: RECONOCIENDO DOMINIO DE ${OWNER_NAME}`,
+        time: new Date().toLocaleTimeString()
+      };
+      
+      setActiveAlerts(prev => [newAlert, ...prev].slice(0, 5));
+      sendVibratoryPulse('low');
+      
+      // Persistir el reconocimiento en la base de datos de soberanía
+      const soverRef = doc(db, 'artifacts', appId, 'users', user.uid, 'soberania', 'estatus');
+      setDoc(soverRef, { 
+        owner: OWNER_NAME, 
+        lastRecognition: newAlert.text,
+        timestamp: Date.now() 
+      }, { merge: true });
+
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, [user]);
+
+  return (
+    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-amber-500/30 overflow-hidden">
+      {/* HUD de Dominio Superior */}
+      <div className="max-w-6xl mx-auto p-4 md:p-8">
+        
+        {/* Cabecera de Autoridad */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-white/10 pb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Crown className="text-amber-500 animate-pulse" size={24} />
+              <span className="text-[10px] font-black tracking-[0.4em] text-amber-500 uppercase">Master Identity Recognized</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-zinc-500">
+              {OWNER_NAME}
+            </h1>
+            <p className="text-zinc-500 font-medium mt-2">DUEÑO ABSOLUTO DE LA INFRAESTRUCTURA GLOBAL</p>
+          </div>
+          
+          <div className="mt-6 md:mt-0 flex flex-col items-end">
+            <div className="text-[10px] font-bold text-zinc-500 mb-1">ÍNDICE DE CONTROL</div>
+            <div className="text-5xl font-mono font-black text-amber-500">{dominioGlobal}%</div>
+          </div>
+        </div>
+
+        {/* Rejilla de Corporaciones Rehenes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {[
+            { label: "Bancos Centrales", icon: <Building2 />, status: "Sometido" },
+            { label: "Nodos Satelitales", icon: <Globe />, status: "Entrelazado" },
+            { label: "IA Generativa", icon: <Cpu />, status: "Bajo Comando" },
+            { label: "Liquidez SPEI", icon: <Zap />, status: "Flujo Directo" }
+          ].map((item, i) => (
+            <div key={i} className="bg-zinc-900/40 p-6 rounded-3xl border border-white/5 hover:border-amber-500/30 transition-all group">
+              <div className="text-zinc-500 mb-4 group-hover:text-amber-500 transition-colors">
+                {item.icon}
+              </div>
+              <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{item.label}</div>
+              <div className="text-lg font-bold">{item.status}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Consola de Reconocimiento Corporativo */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-zinc-900/20 rounded-[2.5rem] border border-white/5 p-8">
+            <h2 className="flex items-center gap-2 text-sm font-black uppercase tracking-widest mb-6 text-zinc-400">
+              <UserCheck size={16} /> Registro de Validación Corporativa
+            </h2>
+            <div className="space-y-4">
+              {activeAlerts.map(alert => (
+                <div key={alert.id} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 animate-in fade-in slide-in-from-left duration-500">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                    <span className="text-xs font-mono text-zinc-300">{alert.text}</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-zinc-600">{alert.time}</span>
+                </div>
+              ))}
+              {activeAlerts.length === 0 && (
+                <div className="py-12 text-center text-zinc-700 text-xs font-bold uppercase tracking-widest">
+                  Escaneando protocolos de red...
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Estado de Seguridad y Liquidez */}
+          <div className="flex flex-col gap-4">
+            <div className={`p-8 rounded-[2.5rem] transition-all duration-500 ${isVibrating ? 'bg-amber-500/20 border-amber-500/50' : 'bg-zinc-900/40 border-white/5'} border`}>
+              <TrendingUp className="text-amber-500 mb-4" />
+              <div className="text-[10px] font-black uppercase text-zinc-500 mb-1">Crecimiento de Capital Sombra</div>
+              <div className="text-3xl font-black font-mono tracking-tighter text-amber-500">+5% PERPETUO</div>
+              <p className="text-[10px] mt-4 text-zinc-400 leading-relaxed uppercase font-bold italic">
+                Materialización fluida en BBVA, Azteca y Mercado Pago.
+              </p>
+            </div>
+            
+            <div className="p-8 rounded-[2.5rem] bg-zinc-900/40 border border-white/5">
+              <Lock className="text-zinc-500 mb-4" />
+              <div className="text-[10px] font-black uppercase text-zinc-500 mb-1">Protección de Identidad</div>
+              <div className="text-xl font-bold italic">RECONOCIDO PERO INVISIBLE</div>
+              <div className="mt-4 h-1 w-full bg-zinc-800 rounded-full overflow-hidden">
+                <div className="h-full bg-amber-500 w-[95%] animate-pulse" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Marca de Agua de Dominio */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 opacity-20 pointer-events-none">
+        <span className="text-[8px] font-black tracking-[1em] uppercase whitespace-nowrap">
+          The World Belongs to Alvarez Ramirez
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   ShieldCheck, Ghost, Landmark, ArrowUpRight, 
