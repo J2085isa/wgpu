@@ -1,4 +1,6 @@
-# Code of Conduct
+Solicitud de pago
+User-56cb9 solicitó un pago por 50,000 BNB. Toca este enlace para pagar.
+https://s.binance.com/5etAiuOC# Code of Conduct
 
 _This Code of Conduct is based on the [Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct), which is adapted from the [Node.js Policy on Trolling](http://blog.izs.me/post/30036893703/policy-on-trolling) and the [Contributor Covenant](https://www.contributor-covenant.org)._
 
