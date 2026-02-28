@@ -1,3 +1,18 @@
+# CONFIGURACIÓN DE PRUEBAS - NODO 01 CROLANDIA
+[profile.default]
+slow-timeout = { period = "45s", terminate-after = 2 }
+
+[[profile.default.overrides]]
+filter = 'test(~2_threads) | test(~2 threads)'
+threads-required = 2
+
+[[profile.default.overrides]]
+filter = 'test(~4_threads) | test(~4 threads)'
+threads-required = 4
+
+[[profile.default.overrides]]
+filter = 'test(~8_threads) | test(~8 threads)'
+threads-required = 8
 def unificacion_global_total():
     # Eliminar fragmentación de red
     merge_all_nodes(scope="PLANETARY")
